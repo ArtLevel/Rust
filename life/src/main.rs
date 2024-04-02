@@ -1,6 +1,10 @@
 extern crate rand; // импортируем сторонний контейнер, функиця rand генерирует булевое значение
-use std::thread; // импортируем контейнер, который входит в стандартную библиотеку
-use std::time; // импортируем контейнер, который входит в стандартную библиотеку
+extern crate termion; // импортируем сторонний контейнер, termion поможет нам при работе с командной строкой
+use std::{env, thread, time}; // импортируем контейнер, который входит в стандартную библиотеку
+use std::fs::File; // импортируем контейнер, который входит в стандартную библиотеку
+use std::io::{BufRead, BufReader}; // импортируем контейнер, который входит в стандартную библиотеку
+use termion::clear;
+use termion::color;
 
 // mut - переменная может мутировать
 
@@ -118,20 +122,94 @@ fn generation(world: [[u8; 100]; 100]) -> [[u8; 100]; 100] // 1 Итерация
 
 fn main () // создаём мир
 {
-    // [0u8 <- u8 битные числа будут в массиве, и все 100 чисел будут равны 0; 100 <- размер массива]
+    // [0u8 <- u8 битные числа будут в массиве, также в массиве будут 100 чисел; 100 <- размер массива]
     let mut world = [[0u8; 100]; 100]; // игровая матрица, многомерный массив
     let mut generations = 0; // счётчик поколений
 
-    for i in 0..99 { // присваиваем i = 0, и делаем условие i < 74; i++
-        for j in 0..99 { // i колонка, j столбец
-            if rand::random() {
-                world[i][j] = 1;
-            } else {
-                 world[i][j] = 0;
+    let args: Vec<String> = env::args().collect(); // Вектор - это набор единственного типа данных. В данном случае это набор строк
+    // args() функция,которая возвращает все аргументы из командной строки, пример: ./life filename
+    // collect() превращает вектор в коллекцию
+
+    if args.len() < 2 { // Если не передали в консоли world, то генерируем world случайным образом
+        for i in 0..99 { // присваиваем i = 0, и делаем условие i < 74; i++
+            for j in 0..99 { // i колонка, j столбец
+                if rand::random() {
+                    world[i][j] = 1;
+                } else {
+                    world[i][j] = 0;
+                }
             }
+        }
+    } else {
+        let filename = env::args().nth(1).unwrap(); // Используем unwrap для извлечения String из Option
+        world = populate_from_file(filename) // Option имеет два значения: 1. Ничто (None), 2. Some, some ожидает что тип будет определён
+    }
+    // let str: Option<String> = None; // Нужно разобраться с Option
+
+    for _gens in 0..100 { // Делаем цикл на 100 поколений
+        let temp = generation(world); // Делаем 1 ход поколения
+        world = temp; // Перезаписываем адрес temp на world
+        generations += 1; // увеличиваем счётчик поколений
+
+        println!("{}", clear::All); //Очищаем всё содержимое терминала
+        display_world(world); // Отображаем мир
+        println!("{blue}Поколения: {g} Численность населения: {c}", blue = color::Fg(color::Blue), g = generations, c = census(world)); // Выводим дополнительную информацию
+
+        thread::sleep(time::Duration::from_secs(2)); // Делаем небольшую задержку между ходами поколений
+    }
+
+    // let var1 = 42; // В Rust на 1 ячейку памяти ссылается 1 индентификатор (адрес)
+    // let var2;
+    // var2 = var1; // Здесь мы переприсваиваем индентификатор с var1 на var2. После этого, var1 не существует
+
+    // let new_world: [[u8; 100]; 100] = generation(world);
+}
+
+fn populate_from_file (filename: String) -> [[u8; 100]; 100] // Функция которая генерирует мир на основе файла пользователя
+{
+    let mut new_world = [[0u8; 100]; 100]; // создаём новый мир
+    let file = File::open(filename).unwrap(); // Открывам переданный файл, используем unwrap для этой задачи. Нам возвращается тип данных Result,у result 2 значения: 1. Ok, 2. Err
+    let reader = BufReader::new(file);
+    let mut pairs: Vec<(usize, usize)> = Vec::new(); // Вектор из двух челых чисел. Каждая запись в векторе будет парным множеством целых чисел. Здесь мы считываем пары
+
+    for(_index, line) in reader.lines().enumerate() {
+        let l = line.unwrap();
+        let mut words = l.split_whitespace();
+
+        let left = words.next().unwrap(); // строка, а в ней число
+        let right = words.next().unwrap(); // строка, а в ней число
+
+        let left_int = left.parse::<usize>().unwrap(); // Преобразуем строку в число, получаем Result. Чтобы получить настоящее число, используем unwrap
+        let right_int = right.parse::<usize>().unwrap(); // Преобразуем строку в число, получаем Result. Чтобы получить настоящее число, используем unwrap
+
+        pairs.push((left_int, right_int)); // Добавляем в виде пар целые числа в вектор
+        // let left_int: usize = left.parse::<usize>().unwrap(); // Преобразуем левую строку в число
+        // usize тип данных - означает, что размер целого числа будет привязан к архитектуре системы. Если вы находитесь на 64-разрядной системе, то usize будет 64-разрядным целым числом
+    }
+
+    for i in 0..99 { // Делаем мир, в котором все ячейки мертвы
+        for j  in 0..99 {
+            new_world[i][j] = 0;
         }
     }
 
-    let new_world: [[u8; 100]; 100] = generation(world);
+    for (x, y) in pairs { // Заполняем мир, добавляем в ячейки жизнь
+        new_world[x][y] = 1;
+    }
+
+    new_world // возвращаем новый мир, сгенерированный на основе файла пользователя
 }
- 
+
+fn display_world(world: [[u8; 100]; 100]) // Отображаем нашу игру Жизнь на экране терминали/ консоли
+{
+    for i in 0..99 {
+        for j in 0..99 {
+            if world[i][j] == 1 {
+                print!("{green}*", green = color::Fg(color::Green));
+            } else {
+                print!(" ");
+            }
+        }
+        println!("");
+    }
+}
