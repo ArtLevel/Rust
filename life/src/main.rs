@@ -39,28 +39,61 @@ fn generation(world: [[u8; 100]; 100]) -> [[u8; 100]; 100] // 1 Итерация
             let mut count = 0; // количество соседей у клетки
 
             // Подсчитываем количество соседей у клетки
-            if i > 0 {
-                count = count + world[i][j];
+            // if i > 0 {
+            //     count = count + world[i][j];
+            // }
+            //
+            // if i > 0 && j > 0 {
+            //     count = count + world[i - 1][j - 1];
+            // }
+            //
+            // if i > 0 && j < 74 {
+            //     count = count + world[i - 1][j + 1];
+            // }
+            //
+            // if i < 74 && j > 0 {
+            //     count = count + world[i + 1][j - 1];
+            // }
+            //
+            // if j > 0 {
+            //     count = count + world[i][j - 1];
+            // }
+            //
+            // if j < 74 {
+            //     count = count + world[i][j + 1];
+            // }
+
+            // Подсчитываем количество соседей у клетки
+            if i < 99 {
+                count = count + world[i + 1][j]
             }
 
-            if i > 0 && j > 0 {
-                count = count + world[i - 1][j - 1];
+            if j < 99 {
+                count = count + world[i][j + 1]
             }
 
-            if i > 0 && j < 74 {
-                count = count + world[i - 1][j + 1];
+            if j != 0 {
+                count = count + world[i][j - 1]
             }
 
-            if i < 74 && j > 0 {
-                count = count + world[i + 1][j - 1];
+            if i != 0 {
+                count = count + world[i - 1][j]
             }
 
-            if j > 0 {
-                count = count + world[i][j - 1];
+            if i < 99 && j != 0 {
+                count = count + world[i + 1][j - 1]
             }
 
-            if j < 74 {
-                count = count + world[i][j + 1];
+            if i != 0 && j != 0 {
+                count = count + world[i - 1][j - 1]
+            }
+
+            if j < 99 && i != 0 {
+                count = count + world[i - 1][j + 1]
+            }
+
+            if j < 99 && i < 99 {
+                count = count + world[i + 1][j + 1]
             }
 
             new_world[i][j] = 0;
@@ -98,4 +131,7 @@ fn main () // создаём мир
             }
         }
     }
+
+    let new_world: [[u8; 100]; 100] = generation(world);
 }
+ 
