@@ -63,3 +63,76 @@ use std::io;
 
 
 // }
+
+// В Rust много знакомых типов:
+//
+//     булевый - bool представляет true/false
+//     без знаковые целочисленные - u8 u16 u32 u64 u128 представляют только положительные числа
+//     знаковые целочисленные - i8 i16 i32 i64 i128 представляют положительные и отрицательные числа
+//     целочисленные для размеров указателей - usize, isize для представления индексов и размеров элементов в памяти
+//     числа с плавающей точкой - f32 f64
+//     кортежи - (значение,значение,...) представляют фиксированную последовательность из разных типов значений, размещаются на стеке
+//     массивы - [значение, значение, ...] представляют последовательность элементов одного типа, имеющий фиксированный размер известный на стадии компиляции.
+//     срезы (slices) - коллекция одинаковых элементов с длиной, известной во время выполнения
+//     строковый срез str ( string slice ) - текст с размером определяемым во время выполнения
+fn greeting ()
+{
+    print!("Hello Everyone !");
+    let sum = 20u8 + 3u16 as u8;
+    let sum = 20u8 + 3u16 as u8;
+    let sum = 20u8 + 3u16 as u8;
+    let sum = 20u8 + 3u16 as u8;
+    let sum = 20u8 + 3u16 as u8;
+    let sum = 20u8 + 3u16 as u8;
+    print!("{}", sum);
+
+    let x = 42;
+
+    match x {
+        0 => {
+            println!("found zero");
+        }
+        // we can match against multiple values
+        1 | 2 => {
+            println!("found 1 or 2!");
+        }
+        // we can match against ranges
+        3..=9 => {
+            println!("found a number 3 to 9 inclusively");
+        }
+        // we can bind the matched number to a variable
+        matched_num @ 10..=100 => {
+            println!("found {} number between 10 to 100!", matched_num);
+        }
+        // this is the default match that must exist if not all cases are handled
+        _ => {
+            println!("found something else!");
+        }
+    }
+
+    let mut y = 0;
+
+    let v = loop {
+        y += 1;
+        if y == 13 {
+            break "found the 13";
+        }
+    };
+
+    println!("from loop: {}", v);
+
+}
+
+// Tutor Of Rust
+
+fn main ()
+{
+    asdfasdfasdfasdfasdad asdasd
+    let a = 10;
+
+    let result = greeting(); // пустой кортеж, также назвыают это как unit (юнит тип)
+    result.0;
+    println!("{}", result);
+
+    println!("{} {}", x = 10, a);
+}
