@@ -75,64 +75,332 @@ use std::io;
 //     массивы - [значение, значение, ...] представляют последовательность элементов одного типа, имеющий фиксированный размер известный на стадии компиляции.
 //     срезы (slices) - коллекция одинаковых элементов с длиной, известной во время выполнения
 //     строковый срез str ( string slice ) - текст с размером определяемым во время выполнения
-fn greeting ()
-{
-    print!("Hello Everyone !");
-    let sum = 20u8 + 3u16 as u8;
-    let sum = 20u8 + 3u16 as u8;
-    let sum = 20u8 + 3u16 as u8;
-    let sum = 20u8 + 3u16 as u8;
-    let sum = 20u8 + 3u16 as u8;
-    let sum = 20u8 + 3u16 as u8;
-    print!("{}", sum);
+// fn greeting ()
+// {
+//     print!("Hello Everyone !");
+//     let sum = 20u8 + 3u16 as u8;
+//     let sum = 20u8 + 3u16 as u8;
+//     let sum = 20u8 + 3u16 as u8;
+//     let sum = 20u8 + 3u16 as u8;
+//     let sum = 20u8 + 3u16 as u8;
+//     let sum = 20u8 + 3u16 as u8;
+//     print!("{}", sum);
+//
+//     let x = 42;
+//
+//     match x {
+//         0 => {
+//             println!("found zero");
+//         }
+//         // we can match against multiple values
+//         1 | 2 => {
+//             println!("found 1 or 2!");
+//         }
+//         // we can match against ranges
+//         3..=9 => {
+//             println!("found a number 3 to 9 inclusively");
+//         }
+//         // we can bind the matched number to a variable
+//         matched_num @ 10..=100 => {
+//             println!("found {} number between 10 to 100!", matched_num);
+//         }
+//         // this is the default match that must exist if not all cases are handled
+//         _ => {
+//             println!("found something else!");
+//         }
+//     }
+//
+//     let mut y = 0;
+//
+//     let v = loop {
+//         y += 1;
+//         if y == 13 {
+//             break "found the 13";
+//         }
+//     };
+// asdfasdfasdf fsadf sadfasdf
+//     println!("from loop: {}", v);
+//
+// }
+//
+// // Tutor Of Rust
+//
+// fn main ()
+// {
+//     asdfasdfasdfasdfasdad asdasd
+//     let a = 10;
+//
+//     let result = greeting(); // пустой кортеж, также назвыают это как unit (юнит тип)
+//     result.0;
+//     println!("{}", result);
+//
+//     println!("{} {}", x = 10, a);
+// }
 
-    let x = 42;
+// fn example() -> i32 {
+//     let x = 42;
+//     // Rust's ternary expression
+//     let v = if x < 42 { -1 } else { 1 }; // 1
+//     println!("from if: {}", v);
+//
+//     let food = "hamburger";
+//     let result = match food {
+//         "hotdog" => "is hotdog",
+//         // notice the braces are optional when its just a single return expression
+//         _ => "is not hotdog",
+//     };
+//     println!("identifying food: {}", result); // "is not hotdog"
+//
+//     let v = {
+//         // This scope block lets us get a result without polluting function scope
+//         let a = 1;
+//         let b = 2;
+//         a + b
+//     };
+//     println!("from block: {}", v); // 3
+//
+//     // The idiomatic way to return a value in rust from a function at the end
+//     v + 4 // 7
+// }
+//
+// fn main() {
+//     println!("from function: {}", example());
+// }
 
-    match x {
-        0 => {
-            println!("found zero");
-        }
-        // we can match against multiple values
-        1 | 2 => {
-            println!("found 1 or 2!");
-        }
-        // we can match against ranges
-        3..=9 => {
-            println!("found a number 3 to 9 inclusively");
-        }
-        // we can bind the matched number to a variable
-        matched_num @ 10..=100 => {
-            println!("found {} number between 10 to 100!", matched_num);
-        }
-        // this is the default match that must exist if not all cases are handled
-        _ => {
-            println!("found something else!");
-        }
-    }
+// struct SeaCreature {
+//     animal_type: String,
+//     name: String,
+//     arms: i32,
+//     legs: i32,
+//     weapon: String,
+// }
+//
+// fn main() {
+//     // SeaCreature's data is on stack
+//     let ferris = SeaCreature {
+//         // String struct is also on stack,
+//         // but holds a reference to data on heap
+//         animal_type: String::from("crab"),
+//         name: String::from("Ferris"),
+//         arms: 2,
+//         legs: 4,
+//         weapon: String::from("claw"),
+//     };
+//
+//     // let dora = SeaCreature {
+//     //     animal_type: String::from("fish"),
+//     //     name: String::from("Dora"),
+//     //     arms: 0,
+//     //     legs: 0,
+//     //     weapon: String::from("none")
+//     // };
+//
+//     let sarah = SeaCreature {
+//         animal_type: String::from("octopus"),
+//         name: Straing::from("Sarah"),
+//         arms: 8,
+//         legs: 0,
+//         weapon: String::from("none"),
+//     };
+//
+//     println!(
+//         "{} is a {}. They have {} arms, {} legs, and a {} weapon",
+//         ferris.name, ferris.animal_type, ferris.arms, ferris.legs, ferris.weapon
+//     );
+//     println!(
+//         "{} is a {}. They have {} arms, and {} legs. They have no weapon..",
+//         sarah.name, sarah.animal_type, sarah.arms, sarah.legs
+//     );
+//     // println!(
+//     //     "{} is a {}. They have {} arms, and {} legs. They have no weapon..",
+//     //     dora.name, dora.animal_type, dora.arms, dora.legs
+//     // );
+// }
+//
 
-    let mut y = 0;
+// struct Numbers (i32, bool);
+//
+// fn main ()
+// {
+//     let num1 = Numbers(32, true);
+//     let num2 = Numbers(-53, false);
+//
+//     println!("{} {}", num1.0, num1.1);
+//     println!("{} {}", num1.0, num1.1);
+//     println!("{} {}", num1.0, num1.1);
+//     println!("{} {}", num1.0, num1.1);
+//     println!("{} {}", num1.0, num1.1);
+//     println!("{} {}", num1.0, num1.1);
+//     println!("{} {}", num2.0, num2.1);
+// }
+//
+// struct Numbers (i32, bool);
+//
+// fn main ()
+// {
+//     let num1 = Numbers(32, true);
+//     let num2 = Numbers(-53, false);
+//
+//     println!("{} {}", num1.0, num1.1);
+//     println!("{} {}", num2.0, num2.1);
+// }
 
-    let v = loop {
-        y += 1;
-        if y == 13 {
-            break "found the 13";
-        }
-    };
+// #![allow(dead_code)] // this line prevents compiler warnings
 
-    println!("from loop: {}", v);
+// enum Species { Crab, Octopus, Fish, Clam }
+// enum PoisonType { Acidic, Painful, Lethal }
+// enum Size { Big, Small }
+// enum Weapon {
+//     Claw(i32, Size),
+//     Poison(PoisonType),
+//     None
+// }
+// enum Eyes {
+//     Black,
+//     White,
+//     Light
+// }
+// struct SeaCreature {
+//     species: Species,
+//     name: String,
+//     arms: i32,
+//     legs: i32,
+//     weapon: Weapon,
+//     eyes: Eyes
+// }
+//
+// fn main() {
+//     // SeaCreature's data is on stack
+//     let sarah = SeaCreature {
+//         // String struct is also on stack,
+//         // but holds a reference to data on heap
+//         species: Species::Octopus,
+//         name: String::from("Sarah"),
+//         arms: 8,
+//         legs: 0,
+//         weapon: Weapon::Poison(PoisonType::Acidic),
+//         eyes: Eyes::Light,
+//     };
+//
+//     match sarah.species {
+//         Species::Octopus => {
+//             match sarah.weapon {
+//                 Weapon::Poison(PoisonType) => {
+//
+//                     let poison_description = match PoisonType {
+//                         PoisonType::Painful => "Painful",
+//                         PoisonType::Lethal => "Lethal",
+//                         PoisonType::Acidic => "Acidic",
+//                     };
+//                     let eyes = match sarah.eyes {
+//                         Eyes::Light => "Light",
+//                         Eyes::Black => "Black",
+//                         Eyes::White => "White",
+//                     };
+//
+//                     println!("ferris is a octopus with poison {}. Ferris has {} eyes", poison_description, eyes)
+//
+//                 },
+//                 _ => println!("ferris is a crab with some other weapon")
+//             }
+//         },
+//         _ => println!("sarah is some other animal"),
+//     }
+// }
 
+// A partially defined struct type
+// struct BagOfHolding<T> {
+//     item: T,
+// }
+//
+// fn main() {
+//     // Note: by using generic types here, we create compile-time created types.
+//     // Turbofish lets us be explicit.
+//     let i32_bag = BagOfHolding::<i32> { item: 42 };
+//     let bool_bag = BagOfHolding::<bool> { item: true };
+//
+//     // Rust can infer types for generics too!
+//     let float_bag = BagOfHolding { item: 3.14 };
+//
+//     // Note: never put a bag of holding in a bag of holding in real life
+//     let mut bag_in_bag = BagOfHolding {
+//         item: BagOfHolding { item: "boom!" },
+//     };
+//
+//     bag_in_bag.item.item = "HELLO";
+//
+//     println!(
+//         "{} {} {} {}",
+//         i32_bag.item, bool_bag.item, float_bag.item, bag_in_bag.item.item
+//     );
+// }
+
+// A partially defined struct type
+// struct BagOfHolding<T> {
+//     // Our parameter type T can be handed to others
+//     item: Option<T>,
+// }
+//
+// fn main() {
+//     // Note: A bag for i32, holding nothing! We have to specify the type
+//     // because otherwise Rust would not know what type of bag it is.
+//     let i32_bag = BagOfHolding::<f64> { item: None };
+//
+//     if i32_bag.item.is_none() {
+//         println!("there's nothing in the bag!")
+//     } else {
+//         println!("there's something in the bag!")
+//     }
+//
+//     let i32_bag = BagOfHolding::<bool> { item: Some(42) };
+//
+//     if i32_bag.item.is_some() {
+//         println!("there's something in the bag!")
+//     } else {
+//         println!("there's nothing in the bag!")
+//     }
+//
+//     // match lets us deconstruct Option elegantly and ensure we handle all cases!
+//     match i32_bag.item {
+//         Some(v) => println!("found {} in bag!", v),
+//         None => println!("found nothing"),
+//     }
+// }
+
+// fn do_something_that_might_fail(i: i32) -> Result<f32, String> {
+//     if i == 42 {
+//         Ok(13.0)
+//     } else {
+//         Err(String::from("this is not the right number"))
+//     }
+// }
+//
+// fn main() -> Result<(), String> {
+//     // concise but assumptive and gets ugly fast
+//     let v = do_something_that_might_fail(42).unwrap(); // Result<T, E> / Option<T>
+//     println!("found {}", v);
+//
+//     // this will panic!
+//     let v = do_something_that_might_fail(1).unwrap();
+//     println!("found {}", v);
+//
+//     Ok(())
+// }
+
+struct Foo {
+    x: i32,
 }
 
-// Tutor Of Rust
+fn do_something(f: Foo) {
+    println!("{}", f.x);
+    // f is dropped here
+}
 
-fn main ()
-{
-    asdfasdfasdfasdfasdad asdasd
-    let a = 10;
+fn main() {
+    let foo = Foo { x: 42 };
+    // foo is moved to do_something
+    do_something(foo);
+    // foo can no longer be used
 
-    let result = greeting(); // пустой кортеж, также назвыают это как unit (юнит тип)
-    result.0;
-    println!("{}", result);
-
-    println!("{} {}", x = 10, a);
+    // println!("{}", foo.x); Error
 }
