@@ -1,0 +1,10 @@
+banana
+apple
+horse
+house
+hello
+world
+rust
+linux
+windows
+macos
