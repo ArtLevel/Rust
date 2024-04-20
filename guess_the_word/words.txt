@@ -8,3 +8,7 @@ rust
 linux
 windows
 macos
+telegram
+clock
+terminal
+phpstorm
